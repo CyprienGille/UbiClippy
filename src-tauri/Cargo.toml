@@ -1,11 +1,9 @@
 [package]
-name = "app"
+name = "ubiclippy"
 version = "0.0.0"
-description = "A Tauri App"
-authors = ["you"]
-license = ""
+description = "A local artificial intelligence in your clipboard."
+authors = ["CyprienGille"]
 repository = ""
-default-run = "app"
 edition = "2021"
 rust-version = "1.60"
 
