@@ -1,6 +1,6 @@
 [package]
 name = "ubiclippy"
-version = "0.0.0"
+version = "0.1.0"
 description = "A local artificial intelligence in your clipboard."
 authors = ["CyprienGille"]
 repository = ""
@@ -13,6 +13,7 @@ rust-version = "1.60"
 tauri-build = { version = "1.5.3", features = [] }
 
 [dependencies]
+arboard = "3.4.0"
 reqwest = { version = "0.12.5", features = ["json"] }
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
