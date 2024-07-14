@@ -1,14 +1,22 @@
 // Prevents additional console window on Windows in release
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+use std::sync::Mutex;
+
 use tauri::Manager;
+use tauri::State;
 
 mod clipboard;
 mod ollama;
 
+#[derive(Debug)]
+struct CurrentChat {
+    history: Mutex<Vec<ollama::Message>>,
+}
+
 #[tauri::command]
-fn response_to_clipboard(response: String) {
-    clipboard::set_clipboard(&response);
+fn to_clipboard(text: String) {
+    clipboard::set_clipboard(&text);
 }
 
 #[tauri::command]
@@ -23,10 +31,10 @@ async fn prompt_with_cb(app: tauri::AppHandle, model: String) {
             cb_contents
         ),
     );
-    trigger_response(app, request).await;
+    generate_response(app, request).await;
 }
 
-async fn trigger_response(app: tauri::AppHandle, request: ollama::GenRequest) {
+async fn generate_response(app: tauri::AppHandle, request: ollama::GenRequest) {
     match ollama::gen_response(request).await {
         Ok(mut resp) => {
             while let Ok(Some(chunk)) = resp.chunk().await {
@@ -42,11 +50,20 @@ async fn trigger_response(app: tauri::AppHandle, request: ollama::GenRequest) {
     }
 }
 
+#[tauri::command]
+fn clear_chat(chat: State<CurrentChat>) {
+    chat.history.lock().unwrap().clear();
+}
+
 fn main() {
     tauri::Builder::default()
+        .manage(CurrentChat {
+            history: Mutex::new(Vec::new()),
+        })
         .invoke_handler(tauri::generate_handler![
+            clear_chat,
             prompt_with_cb,
-            response_to_clipboard
+            to_clipboard
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

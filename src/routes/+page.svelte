@@ -13,8 +13,8 @@
 		invoke('prompt_with_cb', { model: 'llama3:instruct' });
 	}
 
-	function into_clipboard(response: string) {
-		invoke('response_to_clipboard', { response });
+	function into_clipboard(text: string) {
+		invoke('to_clipboard', { text });
 	}
 </script>
 
