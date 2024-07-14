@@ -3,20 +3,35 @@
 
 use tauri::Manager;
 
+mod clipboard;
 mod ollama;
 
 #[tauri::command]
-async fn trigger_response(app: tauri::AppHandle) {
-    let request = ollama::OllamaRequest::new(
-        "llama3:instruct".to_owned(),
-        "Who are you? Respond in one to two sentences.".to_owned(),
-    );
+fn response_to_clipboard(response: String) {
+    clipboard::set_clipboard(&response);
+}
 
+#[tauri::command]
+async fn prompt_with_cb(app: tauri::AppHandle, model: String) {
+    let cb_contents = clipboard::get_clipboard();
+    let request = ollama::OllamaRequest::new(
+        model,
+        format!(
+            "Summarize the text between <p> tags in two sentences.\
+         Do not say 'Here is a summary of the text'.\
+         \n <p>{}</p>",
+            cb_contents
+        ),
+    );
+    trigger_response(app, request).await;
+}
+
+async fn trigger_response(app: tauri::AppHandle, request: ollama::OllamaRequest) {
     match ollama::get_response(request).await {
         Ok(mut resp) => {
             while let Ok(Some(chunk)) = resp.chunk().await {
                 match serde_json::from_slice::<ollama::OllamaResponse>(&chunk) {
-                    Ok(resp_data) => app.emit_all("ollama_chunk", resp_data).unwrap(),
+                    Ok(resp_data) => app.emit_all("llm_chunk", resp_data).unwrap(),
                     Err(e) => println!("Malformated response: {}", e),
                 };
             }
@@ -29,7 +44,10 @@ async fn trigger_response(app: tauri::AppHandle) {
 
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![trigger_response])
+        .invoke_handler(tauri::generate_handler![
+            prompt_with_cb,
+            response_to_clipboard
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
