@@ -8,15 +8,11 @@ use tauri::State;
 
 mod clipboard;
 mod ollama;
+mod prompts;
 
 #[derive(Debug)]
 struct CurrentChat {
     history: Mutex<Vec<ollama::Message>>,
-}
-
-#[tauri::command]
-fn to_clipboard(text: String) {
-    clipboard::set_clipboard(&text);
 }
 
 #[tauri::command]
@@ -107,10 +103,12 @@ fn main() {
         .manage(CurrentChat {
             history: Mutex::new(Vec::new()),
         })
+        .manage(prompts::PromptLib::defaults())
         .invoke_handler(tauri::generate_handler![
             process_chat,
             prompt_with_cb,
-            to_clipboard
+            clipboard::set_clipboard,
+            prompts::add_prompt
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
