@@ -10,8 +10,8 @@
 
 # [0.3.0] - Chat
 
-- [ ] Exchange messages for feedback
-- [ ] Chat interface
+- [x] Exchange messages for feedback
+- [x] Chat interface
 - [ ] Copy any of the messages
 
 # [0.3.0] - Prompts & Models
@@ -42,6 +42,7 @@
 # [0.7.0] - Storage
 
 - [ ] Storing previous responses/chats
+- [ ] Loading into a previous chat
 - [ ] Deleting responses/chats
 
 # [0.8.0] - Settings and customization
