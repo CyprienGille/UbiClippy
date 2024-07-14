@@ -14,7 +14,7 @@ fn response_to_clipboard(response: String) {
 #[tauri::command]
 async fn prompt_with_cb(app: tauri::AppHandle, model: String) {
     let cb_contents = clipboard::get_clipboard();
-    let request = ollama::OllamaRequest::new(
+    let request = ollama::GenRequest::new(
         model,
         format!(
             "Summarize the text between <p> tags in two sentences.\
@@ -26,11 +26,11 @@ async fn prompt_with_cb(app: tauri::AppHandle, model: String) {
     trigger_response(app, request).await;
 }
 
-async fn trigger_response(app: tauri::AppHandle, request: ollama::OllamaRequest) {
-    match ollama::get_response(request).await {
+async fn trigger_response(app: tauri::AppHandle, request: ollama::GenRequest) {
+    match ollama::gen_response(request).await {
         Ok(mut resp) => {
             while let Ok(Some(chunk)) = resp.chunk().await {
-                match serde_json::from_slice::<ollama::OllamaResponse>(&chunk) {
+                match serde_json::from_slice::<ollama::GenResponse>(&chunk) {
                     Ok(resp_data) => app.emit_all("llm_chunk", resp_data).unwrap(),
                     Err(e) => println!("Malformated response: {}", e),
                 };
