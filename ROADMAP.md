@@ -6,7 +6,7 @@
 # [0.2.0] - Clipboard interactions
 
 - [x] Inject clipboard into prompt
-- [ ] Copy model response into clipboard
+- [x] Copy model response into clipboard
 
 # [0.3.0] - Chat
 
