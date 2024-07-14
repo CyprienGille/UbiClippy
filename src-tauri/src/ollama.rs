@@ -4,20 +4,33 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Debug, Default, Serialize, Deserialize)]
 #[serde(rename_all(serialize = "lowercase", deserialize = "PascalCase"))]
 pub enum Role {
+    #[serde(alias = "system")]
     System,
     #[default]
+    #[serde(alias = "user")]
     User,
+    #[serde(alias = "assistant")]
     Assistant,
 }
 
 #[derive(Clone, Debug, Default, Serialize, Deserialize)]
 pub struct Message {
-    role: Role,
-    content: String,
+    pub role: Role,
+    pub content: String,
     images: Option<Vec<String>>,
 }
 
-#[derive(Debug, Serialize, Default)]
+impl Message {
+    pub fn new(role: Role, content: String) -> Self {
+        Message {
+            role,
+            content,
+            images: None,
+        }
+    }
+}
+
+#[derive(Debug, Serialize, Deserialize, Default)]
 pub struct ChatRequest {
     model: String,
     messages: Vec<Message>,
@@ -33,8 +46,8 @@ impl ChatRequest {
 pub struct ChatResponse {
     model: String,
     created_at: String,
-    message: Option<Message>,
-    done: bool,
+    pub message: Option<Message>,
+    pub done: bool,
     total_duration: Option<i64>,
     load_duration: Option<i64>,
     prompt_eval_count: Option<i64>,
