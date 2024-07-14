@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Default, Serialize, Deserialize)]
 #[serde(rename_all(serialize = "lowercase", deserialize = "PascalCase"))]
-enum Role {
+pub enum Role {
     System,
     #[default]
     User,
@@ -11,20 +11,26 @@ enum Role {
 }
 
 #[derive(Clone, Debug, Default, Serialize, Deserialize)]
-struct Message {
+pub struct Message {
     role: Role,
     content: String,
     images: Option<Vec<String>>,
 }
 
 #[derive(Debug, Serialize, Default)]
-struct ChatRequest {
+pub struct ChatRequest {
     model: String,
     messages: Vec<Message>,
 }
 
+impl ChatRequest {
+    pub fn new(model: String, messages: Vec<Message>) -> Self {
+        ChatRequest { model, messages }
+    }
+}
+
 #[derive(Clone, Serialize, Deserialize, Debug, Default)]
-struct ChatResponse {
+pub struct ChatResponse {
     model: String,
     created_at: String,
     message: Option<Message>,
@@ -69,6 +75,17 @@ pub async fn gen_response(req: GenRequest) -> Result<Response, reqwest::Error> {
 
     let res = client
         .post("http://localhost:11434/api/generate")
+        .json(&req)
+        .send()
+        .await?;
+    Ok(res)
+}
+
+pub async fn chat_response(req: ChatRequest) -> Result<Response, reqwest::Error> {
+    let client = Client::new();
+
+    let res = client
+        .post("http://localhost:11434/api/chat")
         .json(&req)
         .send()
         .await?;
