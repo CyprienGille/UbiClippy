@@ -8,10 +8,11 @@
 - Inject clipboard into prompt
 - Copy model response into clipboard
 
-# [0.3.0] - Prompts
+# [0.3.0] - Prompts & Models
 
-- List of default prompts
+- Default prompts
 - Display possible prompts
+- Display Ollama models
 
 # [0.4.0] - Shortcuts
 
@@ -73,3 +74,4 @@
 - Allow start on startup/login
 - Exporting chats
 - Importing chats
+- More LLM providers
