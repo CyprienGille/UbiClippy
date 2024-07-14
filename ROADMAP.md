@@ -12,7 +12,7 @@
 
 - [x] Exchange messages for feedback
 - [x] Chat interface
-- [ ] Copy any of the messages
+- [x] Copy any of the messages
 
 # [0.3.0] - Prompts & Models
 
@@ -50,7 +50,7 @@
 - [ ] Setting shortcut
 - [ ] Customizing prompts
 - [ ] Customize default model
-  - [ ] Override default per- [ ]prompt
+  - [ ] Override default per-prompt
 - [ ] Customize storage
 - [ ] Customize closing behavior
 - [ ] Bypass deleting confirmation dialog

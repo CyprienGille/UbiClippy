@@ -1,4 +1,5 @@
 <script lang="ts">
+	import cbIcon from '$lib/copy_clipboard_icon.png';
 	import { invoke } from '@tauri-apps/api/tauri';
 	import { listen } from '@tauri-apps/api/event';
 
@@ -16,7 +17,7 @@
 
 	let chatElement: HTMLElement;
 
-	let chat: string[] = [];
+	let chat: string[] = ['This is a test', 'This is a test too'];
 	let currentMessage = '';
 
 	let generating = false;
@@ -69,6 +70,10 @@
 			}
 		}
 	}
+
+	function copyMessage(i: number) {
+		invoke('to_clipboard', { text: chat[i] });
+	}
 </script>
 
 <main class="h-screen w-screen content-center space-y-5">
@@ -93,8 +98,11 @@
 							<div class="card p-4 rounded-tl-none space-y-2 variant-soft-secondary">
 								<header class="flex justify-between items-center">
 									<p class="font-bold">Assistant</p>
+									<button class="btn" on:click={() => copyMessage(i)}>
+										<img class="w-6" src={cbIcon} alt="A clipboard icon" />
+									</button>
 								</header>
-								<p>{msg}</p>
+								<p class="">{msg}</p>
 							</div>
 							<div class="w-16" />
 						</div>
