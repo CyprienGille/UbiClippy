@@ -41,6 +41,7 @@
 
 # [0.7.0] - Storage
 
+- [ ] Clearing current chat
 - [ ] Storing previous responses/chats
 - [ ] Loading into a previous chat
 - [ ] Deleting responses/chats
