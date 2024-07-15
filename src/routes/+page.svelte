@@ -25,7 +25,7 @@
 	let chat: string[] = [];
 	let currentMessage = '';
 
-	let picking_prompt = true;
+	let pickingPrompt = true;
 	let generating = false;
 	let firstMsg = false;
 
@@ -83,15 +83,15 @@
 		invoke('set_clipboard', { text: chat[i] });
 	}
 
-	function selectPrompt(id: number, content: string) {
-		picking_prompt = false;
-		currentMessage = content;
+	async function selectPrompt(id: number, content: string) {
+		pickingPrompt = false;
+		currentMessage = content.replaceAll('$CLIPBOARD$', await invoke('get_clipboard'));
 		sendMessage();
 	}
 </script>
 
 <main class="h-screen w-screen">
-	{#if picking_prompt}
+	{#if pickingPrompt}
 		<div class="flex flex-col sm:flex-row justify-center">
 			{#await prompts_promise}
 				Loading prompts...
