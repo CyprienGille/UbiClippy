@@ -17,8 +17,8 @@
 # [0.4.0] - Prompts & Models
 
 - [ ] Default prompts
-- [ ] Display possible prompts
-- [ ] Display Ollama models
+- [x] Display possible prompts
+- [ ] Display Ollama model
 
 # [0.5.0] - Shortcuts
 
