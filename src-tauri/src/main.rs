@@ -108,7 +108,8 @@ fn main() {
             process_chat,
             prompt_with_cb,
             clipboard::set_clipboard,
-            prompts::add_prompt
+            prompts::add_prompt,
+            prompts::get_all_prompts
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
