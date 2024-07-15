@@ -14,39 +14,39 @@
 - [x] Chat interface
 - [x] Copy any of the messages
 
-# [0.3.0] - Prompts & Models
+# [0.4.0] - Prompts & Models
 
 - [ ] Default prompts
 - [ ] Display possible prompts
 - [ ] Display Ollama models
 
-# [0.4.0] - Shortcuts
+# [0.5.0] - Shortcuts
 
 - [ ] Calling the app using a shortcut chord
 - [ ] Picking a prompt by using a letter
 - [ ] Display keyboard keys near prompts
 - [ ] Copy last message
 
-# [0.5.0] - Closing behavior
+# [0.6.0] - Closing behavior
 
 - [ ] Tray icon
 - [ ] Closing to tray
 - [ ] Dismiss the app with a shortcut
 
-# [0.6.0] - Custom prompts
+# [0.7.0] - Custom prompts
 
 - [ ] Adding prompts
 - [ ] Removing prompts
 - [ ] Toggling prompts on/off
 
-# [0.7.0] - Storage
+# [0.8.0] - Storage
 
 - [ ] Clearing current chat
 - [ ] Storing previous responses/chats
 - [ ] Loading into a previous chat
 - [ ] Deleting responses/chats
 
-# [0.8.0] - Settings and customization
+# [0.9.0] - Settings and customization
 
 - [ ] Setting shortcut
 - [ ] Customizing prompts
@@ -58,7 +58,7 @@
 - [ ] Customizing theme
 - [ ] UI for each setting
 
-# [0.9.0] - Documentation + UI/UX improvements
+# [0.10.0] - Documentation + UI/UX improvements
 
 - [ ] Documentation efforts
 - [ ] App Icon
