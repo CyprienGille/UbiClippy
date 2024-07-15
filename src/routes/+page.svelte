@@ -92,29 +92,29 @@
 
 <main class="h-screen w-screen">
 	{#if pickingPrompt}
-		<div class="flex flex-col sm:flex-row justify-center">
+		<div class="flex flex-col justify-center sm:flex-row">
 			{#await prompts_promise}
 				Loading prompts...
 			{:then all_prompts}
 				{#each all_prompts as prompt, i}
 					<button
-						class="btn-lg variant-filled-surface rounded-md m-2"
+						class="variant-filled-surface btn-lg m-2 rounded-md"
 						on:click={() => selectPrompt(prompt.id, prompt.content)}>{prompt.content}</button
 					>
 				{/each}
 			{/await}
 		</div>
 	{:else}
-		<div class="h-full grid grid-rows-[1fr_auto]">
-			<div class="bg-surface-500/10 p-4 overflow-y-auto" bind:this={chatElement}>
-				<section class="w-full h-auto p-4 overflow-y-auto space-y-2">
+		<div class="grid h-full grid-rows-[1fr_auto]">
+			<div class="overflow-y-auto bg-surface-500/10 p-4" bind:this={chatElement}>
+				<section class="h-auto w-full space-y-2 overflow-y-auto p-4">
 					{#each chat as msg, i}
 						{#if i % 2 === 0}
 							<!-- User Message Bubble -->
 							<div class="grid grid-cols-[1fr_auto] gap-2">
 								<div class="w-12" />
-								<div class="card p-4 variant-soft-primary rounded-tr-none">
-									<header class="flex justify-between items-center">
+								<div class="card variant-soft-primary rounded-tr-none p-4">
+									<header class="flex items-center justify-between">
 										<p class="font-bold">User</p>
 									</header>
 									<p>{msg}</p>
@@ -123,8 +123,8 @@
 						{:else}
 							<!-- Assistant Message Bubble -->
 							<div class="grid grid-cols-[auto_1fr] gap-2">
-								<div class="card p-4 rounded-tl-none space-y-2 variant-soft-secondary">
-									<header class="flex justify-between items-center">
+								<div class="card variant-soft-secondary space-y-2 rounded-tl-none p-4">
+									<header class="flex items-center justify-between">
 										<p class="font-bold">Assistant</p>
 										<button class="btn" on:click={() => copyMessage(i)}>
 											<img class="w-6" src={cbIcon} alt="A clipboard icon" />
@@ -143,7 +143,7 @@
 					<textarea
 						bind:value={currentMessage}
 						on:keydown={handleKeyDown}
-						class="bg-transparent border-0 ring-0 py-2 pl-2"
+						class="border-0 bg-transparent py-2 pl-2 ring-0"
 						name="prompt"
 						id="prompt"
 						placeholder="Write a message..."
