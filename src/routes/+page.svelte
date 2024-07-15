@@ -14,14 +14,22 @@
 	interface LLMChunk {
 		payload: ChatResponse;
 	}
+	interface Prompt {
+		id: number;
+		content: string;
+		enabled: boolean;
+	}
 
 	let chatElement: HTMLElement;
 
-	let chat: string[] = ['This is a test', 'This is a test too'];
+	let chat: string[] = [];
 	let currentMessage = '';
 
+	let picking_prompt = true;
 	let generating = false;
 	let firstMsg = false;
+
+	let prompts_promise: Promise<Array<Prompt>> = invoke('get_all_prompts');
 
 	const unlisten = listen('llm_chunk', (event: LLMChunk) => {
 		if (!generating) {
@@ -72,57 +80,78 @@
 	}
 
 	function copyMessage(i: number) {
-		invoke('to_clipboard', { text: chat[i] });
+		invoke('set_clipboard', { text: chat[i] });
+	}
+
+	function selectPrompt(id: number, content: string) {
+		picking_prompt = false;
+		currentMessage = content;
+		sendMessage();
 	}
 </script>
 
-<main class="h-screen w-screen content-center space-y-5">
-	<div class="h-full grid grid-rows-[1fr_auto]">
-		<div class="bg-surface-500/30 p-4 overflow-y-auto" bind:this={chatElement}>
-			<section class="w-full h-auto p-4 overflow-y-auto space-y-2">
-				{#each chat as msg, i}
-					{#if i % 2 === 0}
-						<!-- User Message Bubble -->
-						<div class="grid grid-cols-[1fr_auto] gap-2">
-							<div class="w-12" />
-							<div class="card p-4 variant-soft-primary rounded-tr-none">
-								<header class="flex justify-between items-center">
-									<p class="font-bold">User</p>
-								</header>
-								<p>{msg}</p>
-							</div>
-						</div>
-					{:else}
-						<!-- Assistant Message Bubble -->
-						<div class="grid grid-cols-[auto_1fr] gap-2">
-							<div class="card p-4 rounded-tl-none space-y-2 variant-soft-secondary">
-								<header class="flex justify-between items-center">
-									<p class="font-bold">Assistant</p>
-									<button class="btn" on:click={() => copyMessage(i)}>
-										<img class="w-6" src={cbIcon} alt="A clipboard icon" />
-									</button>
-								</header>
-								<p class="">{msg}</p>
-							</div>
-							<div class="w-16" />
-						</div>
-					{/if}
+<main class="h-screen w-screen">
+	{#if picking_prompt}
+		<div class="flex flex-col sm:flex-row justify-center">
+			{#await prompts_promise}
+				Loading prompts...
+			{:then all_prompts}
+				{#each all_prompts as prompt, i}
+					<button
+						class="btn-lg variant-filled-surface rounded-md m-2"
+						on:click={() => selectPrompt(prompt.id, prompt.content)}>{prompt.content}</button
+					>
 				{/each}
-			</section>
+			{/await}
 		</div>
-		<div class="bg-surface-500/30 p-4">
-			<div class="input-group input-group-divider grid-cols-[1fr_auto] rounded-container-token">
-				<textarea
-					bind:value={currentMessage}
-					on:keydown={handleKeyDown}
-					class="bg-transparent border-0 ring-0 py-2 pl-2"
-					name="prompt"
-					id="prompt"
-					placeholder="Write a message..."
-					rows="1"
-				/>
-				<button class="variant-filled-primary" on:click={sendMessage}>Send</button>
+	{:else}
+		<div class="h-full grid grid-rows-[1fr_auto]">
+			<div class="bg-surface-500/10 p-4 overflow-y-auto" bind:this={chatElement}>
+				<section class="w-full h-auto p-4 overflow-y-auto space-y-2">
+					{#each chat as msg, i}
+						{#if i % 2 === 0}
+							<!-- User Message Bubble -->
+							<div class="grid grid-cols-[1fr_auto] gap-2">
+								<div class="w-12" />
+								<div class="card p-4 variant-soft-primary rounded-tr-none">
+									<header class="flex justify-between items-center">
+										<p class="font-bold">User</p>
+									</header>
+									<p>{msg}</p>
+								</div>
+							</div>
+						{:else}
+							<!-- Assistant Message Bubble -->
+							<div class="grid grid-cols-[auto_1fr] gap-2">
+								<div class="card p-4 rounded-tl-none space-y-2 variant-soft-secondary">
+									<header class="flex justify-between items-center">
+										<p class="font-bold">Assistant</p>
+										<button class="btn" on:click={() => copyMessage(i)}>
+											<img class="w-6" src={cbIcon} alt="A clipboard icon" />
+										</button>
+									</header>
+									<p class="">{msg}</p>
+								</div>
+								<div class="w-16" />
+							</div>
+						{/if}
+					{/each}
+				</section>
+			</div>
+			<div class="bg-surface-500/20 p-4">
+				<div class="input-group input-group-divider grid-cols-[1fr_auto] rounded-container-token">
+					<textarea
+						bind:value={currentMessage}
+						on:keydown={handleKeyDown}
+						class="bg-transparent border-0 ring-0 py-2 pl-2"
+						name="prompt"
+						id="prompt"
+						placeholder="Write a message..."
+						rows="1"
+					/>
+					<button class="variant-filled-primary" on:click={sendMessage}>Send</button>
+				</div>
 			</div>
 		</div>
-	</div>
+	{/if}
 </main>
