@@ -17,13 +17,13 @@ struct CurrentChat {
 
 #[tauri::command]
 async fn process_chat(
-    user_chat: String,
+    mut user_chat: String,
     model: String,
     app: tauri::AppHandle,
     chat: State<'_, CurrentChat>,
 ) -> Result<(), ()> {
     if user_chat.contains("$CLIPBOARD$") {
-        todo!();
+        user_chat = clipboard::replace_with_clipboard(user_chat);
     }
 
     add_to_chat(user_chat, ollama::Role::User, &chat);
@@ -80,6 +80,7 @@ fn main() {
         .invoke_handler(tauri::generate_handler![
             process_chat,
             clipboard::set_clipboard,
+            clipboard::get_clipboard,
             prompts::add_prompt,
             prompts::get_all_prompts
         ])

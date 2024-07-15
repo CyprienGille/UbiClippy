@@ -1,11 +1,17 @@
 use arboard::Clipboard;
 
+#[tauri::command]
 pub fn get_clipboard() -> String {
     if let Ok(mut cb) = Clipboard::new() {
         cb.get_text().unwrap_or_default()
     } else {
         "".to_string()
     }
+}
+
+pub fn replace_with_clipboard(text: String) -> String {
+    let cb = get_clipboard();
+    text.replace("$CLIPBOARD$", &cb)
 }
 
 #[tauri::command]
