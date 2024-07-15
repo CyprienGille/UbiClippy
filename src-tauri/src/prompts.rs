@@ -52,8 +52,23 @@ impl PromptLib {
                     true,
                 ),
                 Prompt::new(
-                    1,
-                    "Summarize the text between <p> tags in two sentences. Do not say 'Here is a summary of the text'. \n <p>$CLIPBOARD$</p>".to_string(),
+                    2,
+                    "Summarize the following text two sentences. Do not say 'Here is a summary of the text'.\n\n$CLIPBOARD$".to_string(),
+                    true,
+                ),
+                Prompt::new(
+                    3,
+                    "What is the following about?\n\n$CLIPBOARD$".to_string(),
+                    true,
+                ),
+                Prompt::new(
+                    4,
+                    "Format this nicely.\n\n$CLIPBOARD$".to_string(),
+                    true,
+                ),
+                Prompt::new(
+                    5,
+                    "What does this code do?.\n\n$CLIPBOARD$".to_string(),
                     true,
                 ),
             ]),
