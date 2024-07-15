@@ -16,43 +16,16 @@ struct CurrentChat {
 }
 
 #[tauri::command]
-async fn prompt_with_cb(model: String, app: tauri::AppHandle) {
-    let cb_contents = clipboard::get_clipboard();
-    let request = ollama::GenRequest::new(
-        model,
-        format!(
-            "Summarize the text between <p> tags in two sentences.\
-         Do not say 'Here is a summary of the text'.\
-         \n <p>{}</p>",
-            cb_contents
-        ),
-    );
-    generate_chunks(request, app).await;
-}
-
-async fn generate_chunks(request: ollama::GenRequest, app: tauri::AppHandle) {
-    match ollama::gen_response(request).await {
-        Ok(mut resp) => {
-            while let Ok(Some(chunk)) = resp.chunk().await {
-                match serde_json::from_slice::<ollama::GenResponse>(&chunk) {
-                    Ok(resp_data) => app.emit_all("llm_gen_chunk", resp_data).unwrap(),
-                    Err(e) => println!("Malformated response: {}", e),
-                };
-            }
-        }
-        Err(e) => {
-            println!("Error: {}", e)
-        }
-    }
-}
-
-#[tauri::command]
 async fn process_chat(
     user_chat: String,
     model: String,
     app: tauri::AppHandle,
     chat: State<'_, CurrentChat>,
 ) -> Result<(), ()> {
+    if user_chat.contains("$CLIPBOARD$") {
+        todo!();
+    }
+
     add_to_chat(user_chat, ollama::Role::User, &chat);
 
     let current_history = chat.history.lock().unwrap().to_vec();
@@ -106,7 +79,6 @@ fn main() {
         .manage(prompts::PromptLib::defaults())
         .invoke_handler(tauri::generate_handler![
             process_chat,
-            prompt_with_cb,
             clipboard::set_clipboard,
             prompts::add_prompt,
             prompts::get_all_prompts

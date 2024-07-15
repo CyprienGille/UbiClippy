@@ -56,44 +56,6 @@ pub struct ChatResponse {
     eval_duration: Option<i64>,
 }
 
-#[derive(Serialize, Debug, Default)]
-pub struct GenRequest {
-    model: String,
-    prompt: String,
-}
-
-impl GenRequest {
-    pub fn new(model: String, prompt: String) -> Self {
-        GenRequest { model, prompt }
-    }
-}
-
-#[derive(Clone, Serialize, Deserialize, Debug, Default)]
-pub struct GenResponse {
-    model: String,
-    created_at: String,
-    response: String,
-    done: bool,
-    total_duration: Option<i64>,
-    load_duration: Option<i64>,
-    prompt_eval_count: Option<i64>,
-    prompt_eval_duration: Option<i64>,
-    eval_count: Option<i64>,
-    eval_duration: Option<i64>,
-    context: Option<Vec<i64>>,
-}
-
-pub async fn gen_response(req: GenRequest) -> Result<Response, reqwest::Error> {
-    let client = Client::new();
-
-    let res = client
-        .post("http://localhost:11434/api/generate")
-        .json(&req)
-        .send()
-        .await?;
-    Ok(res)
-}
-
 pub async fn chat_response(req: ChatRequest) -> Result<Response, reqwest::Error> {
     let client = Client::new();
 

@@ -9,11 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Default prompts
+- Display and selection of prompt
+- Clipboard usage in a prompt
+
 ### Changed
 
 ### Deprecated
 
 ### Removed
+
+- Ollama api/generate functionality (used at the start for testing)
 
 ### Fixed
 

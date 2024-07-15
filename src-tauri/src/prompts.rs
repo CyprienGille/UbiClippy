@@ -51,6 +51,11 @@ impl PromptLib {
                     "Who are you? Answer in a single sentence.".to_string(),
                     true,
                 ),
+                Prompt::new(
+                    1,
+                    "Summarize the text between <p> tags in two sentences. Do not say 'Here is a summary of the text'. \n <p>$CLIPBOARD$</p>".to_string(),
+                    true,
+                ),
             ]),
         }
     }
