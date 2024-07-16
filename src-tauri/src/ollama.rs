@@ -56,6 +56,29 @@ pub struct ChatResponse {
     eval_duration: Option<i64>,
 }
 
+#[derive(Clone, Serialize, Deserialize, Debug, Default)]
+pub struct ModelDetails {
+    format: String,
+    family: String,
+    families: Vec<String>,
+    parameter_size: String,
+    quantization_level: String,
+}
+
+#[derive(Clone, Serialize, Deserialize, Debug, Default)]
+pub struct ModelInfo {
+    name: String,
+    modified_at: String,
+    size: i64,
+    digest: String,
+    details: ModelDetails,
+}
+
+#[derive(Clone, Serialize, Deserialize, Debug, Default)]
+pub struct TagsResponse {
+    models: Vec<ModelInfo>,
+}
+
 pub async fn chat_response(req: ChatRequest) -> Result<Response, reqwest::Error> {
     let client = Client::new();
 
@@ -65,4 +88,35 @@ pub async fn chat_response(req: ChatRequest) -> Result<Response, reqwest::Error>
         .send()
         .await?;
     Ok(res)
+}
+
+pub async fn tags_response() -> Result<Response, reqwest::Error> {
+    let client = Client::new();
+
+    let res = client.get("http://localhost:11434/api/tags").send().await?;
+    Ok(res)
+}
+
+#[tauri::command]
+pub async fn get_all_models() -> Vec<ModelInfo> {
+    match tags_response().await {
+        Ok(resp) => {
+            if let Ok(bytes) = resp.bytes().await {
+                match serde_json::from_slice::<TagsResponse>(&bytes) {
+                    Ok(all_tags) => all_tags.models,
+                    Err(e) => {
+                        println!("Malformated response: {}", e);
+                        Vec::new()
+                    }
+                }
+            } else {
+                println!("Could not turn response into bytes.");
+                Vec::new()
+            }
+        }
+        Err(e) => {
+            println!("Error: {}", e);
+            Vec::new()
+        }
+    }
 }

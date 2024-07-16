@@ -79,6 +79,7 @@ fn main() {
         .manage(prompts::PromptLib::defaults())
         .invoke_handler(tauri::generate_handler![
             process_chat,
+            ollama::get_all_models,
             clipboard::set_clipboard,
             clipboard::get_clipboard,
             prompts::add_prompt,
