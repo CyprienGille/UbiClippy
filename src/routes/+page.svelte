@@ -1,35 +1,27 @@
 <script lang="ts">
-	import cbIcon from '$lib/copy_clipboard_icon.png';
+	import { getModalStore, type ModalSettings } from '@skeletonlabs/skeleton';
 	import { invoke } from '@tauri-apps/api/tauri';
 	import { listen } from '@tauri-apps/api/event';
 
-	interface Message {
-		role: string;
-		content: string;
-	}
-	interface ChatResponse {
-		message: Message;
-		done: boolean;
-	}
-	interface LLMChunk {
-		payload: ChatResponse;
-	}
-	interface Prompt {
-		id: number;
-		content: string;
-		enabled: boolean;
-	}
+	import ModalModelList from '$lib/ModalModelList.svelte';
+
+	import cbIcon from '$lib/copy_clipboard_icon.png';
+
+	const modalStore = getModalStore();
 
 	let chatElement: HTMLElement;
 
 	let chat: string[] = [];
 	let currentMessage = '';
 
+	let chosenModel: string;
+
 	let pickingPrompt = true;
 	let generating = false;
 	let firstMsg = false;
 
-	let prompts_promise: Promise<Array<Prompt>> = invoke('get_all_prompts');
+	let promptsPromise: Promise<Array<Prompt>> = invoke('get_all_prompts');
+	let modelsPromise: Promise<Array<ModelInfo>> = invoke('get_all_models');
 
 	const unlisten = listen('llm_chunk', (event: LLMChunk) => {
 		if (!generating) {
@@ -60,7 +52,7 @@
 	function sendMessage() {
 		invoke('process_chat', {
 			userChat: currentMessage,
-			model: 'llama3:instruct'
+			model: chosenModel
 		});
 		chat = [...chat, currentMessage];
 		currentMessage = '';
@@ -70,11 +62,13 @@
 		}, 0);
 	}
 
-	function handleKeyDown(event: KeyboardEvent) {
+	function handleInputKeyDown(event: KeyboardEvent) {
 		if (event.key === 'Enter') {
 			if (!event.shiftKey) {
 				event.preventDefault();
-				sendMessage();
+				if (ableToSend()) {
+					sendMessage();
+				}
 			}
 		}
 	}
@@ -88,17 +82,50 @@
 		currentMessage = content.replaceAll('$CLIPBOARD$', await invoke('get_clipboard'));
 		sendMessage();
 	}
+
+	function noSelectedModel(choice: string): boolean {
+		return choice === null || choice === undefined;
+	}
+
+	function ableToSend(): boolean {
+		return !noSelectedModel(chosenModel) && !generating;
+	}
+
+	function triggerModal() {
+		new Promise<boolean>((resolve) => {
+			const modelsModal: ModalSettings = {
+				type: 'component',
+				title: 'Pick a Model',
+				component: {
+					ref: ModalModelList,
+					props: { modelsPromise: modelsPromise }
+				},
+				response: (r: boolean) => {
+					resolve(r);
+				}
+			};
+			modalStore.trigger(modelsModal);
+		}).then((r: boolean | string) => {
+			if (typeof r === 'string') {
+				chosenModel = r;
+			}
+		});
+	}
 </script>
 
 <main class="h-screen w-screen">
+	<button class="btn" on:click={triggerModal}>{chosenModel ?? 'Pick a Model'}</button>
 	{#if pickingPrompt}
-		<div class="flex flex-col justify-center sm:flex-row">
-			{#await prompts_promise}
+		<div
+			class="logo-cloud grid-cols-1 justify-center md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"
+		>
+			{#await promptsPromise}
 				Loading prompts...
 			{:then all_prompts}
 				{#each all_prompts as prompt, i}
 					<button
-						class="variant-filled-surface btn-lg m-2 rounded-md"
+						class="variant-filled-surface btn m-2 text-wrap rounded-md"
+						disabled={noSelectedModel(chosenModel)}
 						on:click={() => selectPrompt(prompt.id, prompt.content)}>{prompt.content}</button
 					>
 				{/each}
@@ -125,7 +152,7 @@
 							<div class="grid grid-cols-[auto_1fr] gap-2">
 								<div class="card variant-soft-secondary space-y-2 rounded-tl-none p-4">
 									<header class="flex items-center justify-between">
-										<p class="font-bold">Assistant</p>
+										<p class="font-bold">{chosenModel}</p>
 										<button class="btn" on:click={() => copyMessage(i)}>
 											<img class="w-6" src={cbIcon} alt="A clipboard icon" />
 										</button>
@@ -142,14 +169,16 @@
 				<div class="input-group input-group-divider grid-cols-[1fr_auto] rounded-container-token">
 					<textarea
 						bind:value={currentMessage}
-						on:keydown={handleKeyDown}
+						on:keydown={handleInputKeyDown}
 						class="border-0 bg-transparent py-2 pl-2 ring-0"
 						name="prompt"
 						id="prompt"
 						placeholder="Write a message..."
 						rows="1"
 					/>
-					<button class="variant-filled-primary" on:click={sendMessage}>Send</button>
+					<button class="variant-filled-primary" disabled={!ableToSend()} on:click={sendMessage}
+						>Send</button
+					>
 				</div>
 			</div>
 		</div>
