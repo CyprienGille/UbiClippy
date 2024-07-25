@@ -96,6 +96,7 @@
 			const modelsModal: ModalSettings = {
 				type: 'component',
 				title: 'Pick a Model',
+				body: '',
 				component: {
 					ref: ModalModelList,
 					props: { modelsPromise: modelsPromise }
@@ -114,8 +115,10 @@
 </script>
 
 <main class="h-screen w-screen">
-	<button class="btn" on:click={triggerModal}>{chosenModel ?? 'Pick a Model'}</button>
 	{#if pickingPrompt}
+		<button class="btn w-full justify-center text-2xl" on:click={triggerModal}
+			>{chosenModel ?? 'Pick a Model'}</button
+		>
 		<div
 			class="logo-cloud grid-cols-1 justify-center md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"
 		>
