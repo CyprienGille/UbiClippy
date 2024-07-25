@@ -18,8 +18,9 @@
 
 - [x] Default prompts
 - [x] Display possible prompts
-- [ ] Display Ollama models
-- [ ] Pick model
+- [x] Display Ollama models
+- [x] Pick model
+- [ ] Go back to the prompt/model selection screen
 
 # [0.5.0] - Shortcuts
 
