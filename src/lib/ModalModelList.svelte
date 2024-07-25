@@ -30,7 +30,7 @@
 		{#await modelsPromise}
 			Loading models...
 		{:then modelsList}
-			<ListBox class="border border-surface-500 p-4 rounded-container-token">
+			<ListBox class="max-h-72 overflow-auto scroll-smooth p-4 rounded-container-token">
 				{#each modelsList as modelInfo}
 					<ListBoxItem bind:group={model} name="model" value={modelInfo.name}
 						>{modelInfo.name}
