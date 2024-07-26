@@ -67,6 +67,7 @@
 - [ ] Better font
 - [ ] Custom theme
 - [ ] Pretty markdown
+- [ ] Toast when copying a message
 - [ ] Highlighted code
 
 # [1.0.0] - RELEASE
