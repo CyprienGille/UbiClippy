@@ -86,4 +86,5 @@
 - [ ] Allow start on startup/login
 - [ ] Exporting chats
 - [ ] Importing chats
+- [ ] Tool calling
 - [ ] More LLM providers
