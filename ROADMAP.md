@@ -20,7 +20,7 @@
 - [x] Display possible prompts
 - [x] Display Ollama models
 - [x] Pick model
-- [ ] Go back to the prompt/model selection screen
+- [x] Go back to the prompt/model selection screen
 
 # [0.5.0] - Shortcuts
 

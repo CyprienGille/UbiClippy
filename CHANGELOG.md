@@ -9,6 +9,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [0.4.0] - 2024-07-26
+
+### Added
+
 - Default prompts
 - Display and selection of prompt
 - Clipboard usage in a prompt
