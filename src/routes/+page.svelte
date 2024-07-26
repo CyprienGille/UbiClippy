@@ -77,6 +77,12 @@
 		invoke('set_clipboard', { text: chat[i] });
 	}
 
+	function backToPrompts() {
+		pickingPrompt = true;
+		chat = [];
+		currentMessage = '';
+	}
+
 	async function selectPrompt(id: number, content: string) {
 		pickingPrompt = false;
 		currentMessage = content.replaceAll('$CLIPBOARD$', await invoke('get_clipboard'));
@@ -145,6 +151,9 @@
 								<div class="w-12" />
 								<div class="card variant-soft-primary rounded-tr-none p-4">
 									<header class="flex items-center justify-between">
+										<button class="btn" on:click={() => copyMessage(i)}>
+											<img class="w-6" src={cbIcon} alt="A clipboard icon" />
+										</button>
 										<p class="font-bold">User</p>
 									</header>
 									<p>{msg}</p>
@@ -160,7 +169,7 @@
 											<img class="w-6" src={cbIcon} alt="A clipboard icon" />
 										</button>
 									</header>
-									<p class="">{msg}</p>
+									<p>{msg}</p>
 								</div>
 								<div class="w-16" />
 							</div>
@@ -169,7 +178,12 @@
 				</section>
 			</div>
 			<div class="bg-surface-500/20 p-4">
-				<div class="input-group input-group-divider grid-cols-[1fr_auto] rounded-container-token">
+				<div
+					class="input-group input-group-divider grid-cols-[auto_1fr_auto] rounded-container-token"
+				>
+					<button class="variant-filled-primary" disabled={!ableToSend()} on:click={backToPrompts}
+						>Back</button
+					>
 					<textarea
 						bind:value={currentMessage}
 						on:keydown={handleInputKeyDown}
