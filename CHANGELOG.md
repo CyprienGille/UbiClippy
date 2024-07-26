@@ -13,10 +13,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Display and selection of prompt
 - Clipboard usage in a prompt
 - Model selection before prompt selection
+- Ability to go back to prompt selection from the chat interface
 
 ### Changed
 
 - Tailwind CSS class order according to Prettier plugin
+- User Messages can also be copied now
 
 ### Deprecated
 
@@ -25,6 +27,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Ollama api/generate functionality (used at the start for testing)
 
 ### Fixed
+
+- Typo is summarization prompt
 
 ### Security
 
