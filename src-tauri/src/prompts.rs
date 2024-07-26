@@ -53,7 +53,7 @@ impl PromptLib {
                 ),
                 Prompt::new(
                     2,
-                    "Summarize the following text two sentences. Do not say 'Here is a summary of the text'.\n\n$CLIPBOARD$".to_string(),
+                    "Summarize the following text in two sentences. Do not say 'Here is a summary of the text'.\n\n$CLIPBOARD$".to_string(),
                     true,
                 ),
                 Prompt::new(
