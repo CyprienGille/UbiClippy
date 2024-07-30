@@ -59,11 +59,13 @@
 - [ ] Bypass deleting confirmation dialog
 - [ ] UI for each setting
 
-# [0.10.0] - Documentation + UI/UX improvements
+# [0.10.0] - UI/UX improvements
 
 - [ ] Custom right-click menu
 - [ ] Pretty markdown
 - [ ] Highlighted code
+- [ ] More options in system tray
+- [ ] Toast when copying a message
 
 # [0.11.0] - Documentation + App improvements
 
@@ -71,7 +73,6 @@
 - [ ] Better App Icon
 - [ ] Better font
 - [ ] Changing theme
-- [ ] Toast when copying a message
 
 # [1.0.0] - RELEASE
 
