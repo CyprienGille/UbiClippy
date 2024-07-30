@@ -133,7 +133,7 @@
 			{:then all_prompts}
 				{#each all_prompts as prompt, i}
 					<button
-						class="variant-filled-surface btn m-2 text-wrap rounded-md"
+						class="variant-filled-surface btn m-2 whitespace-pre-line text-wrap rounded-md"
 						disabled={noSelectedModel(chosenModel)}
 						on:click={() => selectPrompt(prompt.id, prompt.content)}>{prompt.content}</button
 					>
