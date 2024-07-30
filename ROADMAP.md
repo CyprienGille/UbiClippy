@@ -1,20 +1,22 @@
-# [0.1.0] - Basics
+# UbiClippy Features Roadmap
+
+## [0.1.0] - Basics
 
 - [x] Request to Ollama server
 - [x] Display response chunk by chunk
 
-# [0.2.0] - Clipboard interactions
+## [0.2.0] - Clipboard interactions
 
 - [x] Inject clipboard into prompt
 - [x] Copy model response into clipboard
 
-# [0.3.0] - Chat
+## [0.3.0] - Chat
 
 - [x] Exchange messages for feedback
 - [x] Chat interface
 - [x] Copy any of the messages
 
-# [0.4.0] - Prompts & Models
+## [0.4.0] - Prompts & Models
 
 - [x] Default prompts
 - [x] Display possible prompts
@@ -22,47 +24,47 @@
 - [x] Pick model
 - [x] Go back to the prompt/model selection screen
 
-# [0.5.0] - Shortcuts
+## [0.5.0] - Shortcuts
 
 - [x] Calling the app using a shortcut
 - [ ] Picking a prompt by using a letter
 - [ ] Display keyboard keys near prompts
 - [ ] Copy last message
 
-# [0.6.0] - Closing behavior
+## [0.6.0] - Closing behavior
 
 - [ ] Tray icon
 - [ ] Closing to tray
 - [ ] Dismiss the app with a shortcut
 
-# [0.7.0] - Custom prompts
+## [0.7.0] - Custom prompts
 
 - [ ] Adding prompts
 - [ ] Removing prompts
 - [ ] Toggling prompts on/off
 
-# [0.8.0] - Storage
+## [0.8.0] - Storage
 
 - [ ] Clearing current chat
 - [ ] Storing previous responses/chats
 - [ ] Loading into a previous chat
 - [ ] Deleting responses/chats
 
-# [0.9.0] - Settings
+## [0.9.0] - Settings
 
 - [ ] Setting closing behavior
 - [ ] Setting storage
 - [ ] Bypass deleting confirmation dialog
 - [ ] UI for each setting
 
-# [0.10.0] - Customization
+## [0.10.0] - Customization
 
 - [ ] Customizing shortcut
 - [ ] Customizing prompts
 - [ ] Customize default model
 - [ ] Override default model per-prompt
 
-# [0.11.0] - UX improvements
+## [0.11.0] - UX improvements
 
 - [ ] Custom right-click menu
 - [ ] Custom Window menu
@@ -71,25 +73,25 @@
 - [ ] More options in system tray
 - [ ] Toast when copying a message
 
-# [0.12.0] - UI improvements
+## [0.12.0] - UI improvements
 
 - [ ] Documentation efforts
 - [ ] Better App Icon
 - [ ] Better font
 - [ ] Changing theme
 
-# [0.13.0] - Documentation
+## [0.13.0] - Documentation
 
 - [ ] Documentation efforts on the backend
 - [ ] Documentation efforts on the frontend
 
-# [1.0.0] - RELEASE
+## [1.0.0] - RELEASE
 
 - [ ] Sign code
 - [ ] Proper README
 - [ ] Better installer
 
-# Future features
+## Future features
 
 - [ ] Translations
 - [ ] Linux
