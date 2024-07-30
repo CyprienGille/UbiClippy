@@ -3,7 +3,7 @@
 	import { invoke } from '@tauri-apps/api/tauri';
 	import { register } from '@tauri-apps/api/globalShortcut';
 	import { listen } from '@tauri-apps/api/event';
-
+	import { onMount } from 'svelte';
 	import ModalModelList from '$lib/ModalModelList.svelte';
 
 	import cbIcon from '$lib/copy_clipboard_icon.png';
@@ -15,13 +15,15 @@
 	let chat: string[] = [];
 	let currentMessage = '';
 
-	let chosenModel: string;
+	let chosenModel: string = 'llama3.1:latest';
 
 	let pickingPrompt = true;
 	let generating = false;
 	let firstMsg = false;
 
 	let promptsPromise: Promise<Array<Prompt>> = invoke('get_all_prompts');
+	let keyToButtonId: { [key: string]: string } = {};
+
 	let modelsPromise: Promise<Array<ModelInfo>> = invoke('get_all_models');
 
 	register('CommandOrControl+Alt+C', () => {
@@ -50,6 +52,16 @@
 		}
 	});
 
+	async function preparePrompts() {
+		let allPrompts: Array<Prompt> = await invoke('get_all_prompts');
+
+		for (let i = 0; i < allPrompts.length; i++) {
+			if (allPrompts[i].trigger) {
+				keyToButtonId[allPrompts[i].trigger] = `buttonId${allPrompts[i].id}`;
+			}
+		}
+	}
+
 	function scrollChatBottom(): void {
 		chatElement.scrollTo({ top: chatElement.scrollHeight, behavior: 'smooth' });
 	}
@@ -67,12 +79,24 @@
 		}, 0);
 	}
 
-	function handleInputKeyDown(event: KeyboardEvent) {
+	function handleEnterKeyDown(event: KeyboardEvent) {
 		if (event.key === 'Enter') {
 			if (!event.shiftKey) {
 				event.preventDefault();
 				if (ableToSend()) {
 					sendMessage();
+				}
+			}
+		}
+	}
+
+	function handleGeneralKeyDown(event: KeyboardEvent) {
+		if (pickingPrompt) {
+			const buttonId = keyToButtonId[event.key];
+			if (buttonId) {
+				const chosenButton = document.getElementById(buttonId);
+				if (chosenButton) {
+					chosenButton.click();
 				}
 			}
 		}
@@ -85,6 +109,7 @@
 	function backToPrompts() {
 		pickingPrompt = true;
 		chat = [];
+		invoke('clear_chat');
 		currentMessage = '';
 	}
 
@@ -123,7 +148,11 @@
 			}
 		});
 	}
+
+	onMount(preparePrompts);
 </script>
+
+<svelte:window on:keydown={handleGeneralKeyDown} />
 
 <main class="h-screen w-screen">
 	{#if pickingPrompt}
@@ -135,13 +164,27 @@
 		>
 			{#await promptsPromise}
 				Loading prompts...
-			{:then all_prompts}
-				{#each all_prompts as prompt, i}
+			{:then allPrompts}
+				{#each allPrompts as prompt}
 					<button
 						class="variant-filled-surface btn m-2 whitespace-pre-line text-wrap rounded-md"
 						disabled={noSelectedModel(chosenModel)}
-						on:click={() => selectPrompt(prompt.id, prompt.content)}>{prompt.content}</button
+						on:click={() => selectPrompt(prompt.id, prompt.content)}
+						id={`buttonId${prompt.id}`}
 					>
+						{#if prompt.trigger}
+							<div class="relative h-full w-full">
+								<div class="absolute left-0 top-0 -ml-3 -mt-1 rounded-md border px-1 text-xs">
+									{prompt.trigger.toUpperCase()}
+								</div>
+								<div class="h-full content-center">
+									{prompt.content}
+								</div>
+							</div>
+						{:else}
+							{prompt.content}
+						{/if}
+					</button>
 				{/each}
 			{/await}
 		</div>
@@ -191,7 +234,7 @@
 					>
 					<textarea
 						bind:value={currentMessage}
-						on:keydown={handleInputKeyDown}
+						on:keydown={handleEnterKeyDown}
 						class="border-0 bg-transparent py-2 pl-2 ring-0"
 						name="prompt"
 						id="prompt"
