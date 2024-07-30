@@ -16,6 +16,7 @@ interface Prompt {
     id: number;
     content: string;
     enabled: boolean;
+    trigger: string,
 }
 
 interface ModelDetails {
