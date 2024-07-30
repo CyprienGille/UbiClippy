@@ -11,8 +11,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Prompts UI now respects line breaks
-
 ### Deprecated
 
 ### Removed
@@ -20,6 +18,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 ### Security
+
+## [0.5.0] - 2024-07-30
+
+### Added
+
+- Ability to pull the application into focus with Ctrl+Alt+C shortcut
+- Ability to quick-select a prompt using a single letter
+
+### Changed
+
+- Prompts UI now respects line breaks
+- Roadmap is now better organized
+
+### Fixed
+
+- Going back to prompt selection now clears chat history on the backend
 
 ## [0.4.0] - 2024-07-26
 
@@ -36,8 +50,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Tailwind CSS class order according to Prettier plugin
 - User Messages can also be copied now
 
-### Deprecated
-
 ### Removed
 
 - Ollama api/generate functionality (used at the start for testing)
@@ -45,8 +57,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Typo is summarization prompt
-
-### Security
 
 ## [0.3.0] - 2024-07-15
 

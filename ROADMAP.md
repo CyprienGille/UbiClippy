@@ -27,9 +27,8 @@
 ## [0.5.0] - Shortcuts
 
 - [x] Calling the app using a shortcut
-- [ ] Picking a prompt by using a letter
-- [ ] Display keyboard keys near prompts
-- [ ] Copy last message
+- [x] Picking a prompt by using a letter
+- [x] Display keyboard keys near prompts
 
 ## [0.6.0] - Closing behavior
 
