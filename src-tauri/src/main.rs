@@ -61,6 +61,7 @@ async fn chat_chunks(request: ollama::ChatRequest, app: tauri::AppHandle) -> Res
     Ok(new_msg)
 }
 
+#[tauri::command]
 fn clear_chat(chat: State<CurrentChat>) {
     chat.history.lock().unwrap().clear();
 }
@@ -80,6 +81,7 @@ fn main() {
         .manage(prompts::PromptLib::defaults())
         .invoke_handler(tauri::generate_handler![
             process_chat,
+            clear_chat,
             clipboard::set_clipboard,
             clipboard::get_clipboard,
             ollama::get_all_models,
