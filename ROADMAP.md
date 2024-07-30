@@ -48,31 +48,40 @@
 - [ ] Loading into a previous chat
 - [ ] Deleting responses/chats
 
-# [0.9.0] - Settings and customization
+# [0.9.0] - Settings
 
-- [ ] Setting shortcut
-- [ ] Customizing prompts
-- [ ] Customize default model
-  - [ ] Override default per-prompt
-- [ ] Customize storage
-- [ ] Customize closing behavior
+- [ ] Setting closing behavior
+- [ ] Setting storage
 - [ ] Bypass deleting confirmation dialog
 - [ ] UI for each setting
 
-# [0.10.0] - UI/UX improvements
+# [0.10.0] - Customization
+
+- [ ] Customizing shortcut
+- [ ] Customizing prompts
+- [ ] Customize default model
+- [ ] Override default model per-prompt
+
+# [0.11.0] - UX improvements
 
 - [ ] Custom right-click menu
+- [ ] Custom Window menu
 - [ ] Pretty markdown
 - [ ] Highlighted code
 - [ ] More options in system tray
 - [ ] Toast when copying a message
 
-# [0.11.0] - Documentation + App improvements
+# [0.12.0] - UI improvements
 
 - [ ] Documentation efforts
 - [ ] Better App Icon
 - [ ] Better font
 - [ ] Changing theme
+
+# [0.13.0] - Documentation
+
+- [ ] Documentation efforts on the backend
+- [ ] Documentation efforts on the frontend
 
 # [1.0.0] - RELEASE
 
@@ -85,11 +94,11 @@
 - [ ] Translations
 - [ ] Linux
 - [ ] MACOS
-- [ ] Custom window
 - [ ] Reduced installer size
-- [ ] In- [ ]app updater
+- [ ] In-app updater
 - [ ] Allow start on startup/login
 - [ ] Exporting chats
 - [ ] Importing chats
 - [ ] Tool calling
+- [ ] Custom window top bar
 - [ ] More LLM providers

@@ -9,6 +9,7 @@ use tauri::State;
 mod clipboard;
 mod ollama;
 mod prompts;
+mod system_tray;
 
 #[derive(Debug)]
 struct CurrentChat {
@@ -79,11 +80,12 @@ fn main() {
         .manage(prompts::PromptLib::defaults())
         .invoke_handler(tauri::generate_handler![
             process_chat,
-            ollama::get_all_models,
             clipboard::set_clipboard,
             clipboard::get_clipboard,
+            ollama::get_all_models,
             prompts::add_prompt,
-            prompts::get_all_prompts
+            prompts::get_all_prompts,
+            system_tray::summon_window,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

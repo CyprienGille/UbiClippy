@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { getModalStore, type ModalSettings } from '@skeletonlabs/skeleton';
 	import { invoke } from '@tauri-apps/api/tauri';
+	import { register } from '@tauri-apps/api/globalShortcut';
 	import { listen } from '@tauri-apps/api/event';
 
 	import ModalModelList from '$lib/ModalModelList.svelte';
@@ -22,6 +23,10 @@
 
 	let promptsPromise: Promise<Array<Prompt>> = invoke('get_all_prompts');
 	let modelsPromise: Promise<Array<ModelInfo>> = invoke('get_all_models');
+
+	register('CommandOrControl+Alt+C', () => {
+		invoke('summon_window');
+	});
 
 	const unlisten = listen('llm_chunk', (event: LLMChunk) => {
 		if (!generating) {
