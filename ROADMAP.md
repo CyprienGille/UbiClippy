@@ -57,18 +57,21 @@
 - [ ] Customize storage
 - [ ] Customize closing behavior
 - [ ] Bypass deleting confirmation dialog
-- [ ] Customizing theme
 - [ ] UI for each setting
 
 # [0.10.0] - Documentation + UI/UX improvements
 
-- [ ] Documentation efforts
-- [ ] App Icon
-- [ ] Better font
-- [ ] Custom theme
+- [ ] Custom right-click menu
 - [ ] Pretty markdown
-- [ ] Toast when copying a message
 - [ ] Highlighted code
+
+# [0.11.0] - Documentation + App improvements
+
+- [ ] Documentation efforts
+- [ ] Better App Icon
+- [ ] Better font
+- [ ] Changing theme
+- [ ] Toast when copying a message
 
 # [1.0.0] - RELEASE
 
