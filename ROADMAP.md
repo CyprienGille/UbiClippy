@@ -24,7 +24,7 @@
 
 # [0.5.0] - Shortcuts
 
-- [ ] Calling the app using a shortcut chord
+- [ ] Calling the app using a shortcut
 - [ ] Picking a prompt by using a letter
 - [ ] Display keyboard keys near prompts
 - [ ] Copy last message
