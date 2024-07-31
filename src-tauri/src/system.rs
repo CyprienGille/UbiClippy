@@ -17,11 +17,27 @@ pub fn init_tray() -> tauri::SystemTray {
 }
 
 #[tauri::command]
+pub fn toggle_window(app: tauri::AppHandle) -> Result<(), String> {
+    match app.get_window("main") {
+        Some(main_window) => {
+            if main_window.is_focused().unwrap_or_default() {
+                hide_window(app)
+            } else {
+                summon_window(app)
+            }
+        }
+        None => Err("Could not find window 'main'.".to_string()),
+    }
+}
+
 pub fn summon_window(app: tauri::AppHandle) -> Result<(), String> {
     match app.get_window("main") {
         Some(main_window) => {
             if let Err(e) = main_window.show() {
                 return Err(format!("Failed to show on window 'main': {}", e));
+            }
+            if let Err(e) = main_window.unminimize() {
+                return Err(format!("Failed to maximize on window 'main': {}", e));
             }
             if let Err(e) = main_window.set_focus() {
                 return Err(format!("Failed to focus on window 'main': {}", e));
@@ -32,7 +48,6 @@ pub fn summon_window(app: tauri::AppHandle) -> Result<(), String> {
     Ok(())
 }
 
-#[tauri::command]
 pub fn hide_window(app: tauri::AppHandle) -> Result<(), String> {
     match app.get_window("main") {
         Some(main_window) => {
