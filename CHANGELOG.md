@@ -19,6 +19,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
+## [0.6.0] - 2024-07-31
+
+### Added
+
+- Tray icon
+- Closing app to tray
+- Showing app with tray left click or shortcut (Ctrl+Alt+C)
+
+### Changed
+
+- Larger default window width
+- Renamed `system_tray.rs` to `system.rs`
+
+### Removed
+
+- Direct summon and hide window tauri commands
+
+### Fixed
+
+- Summoning app now un-minimizes it too
+
 ## [0.5.0] - 2024-07-30
 
 ### Added
