@@ -3,9 +3,7 @@
 
 use std::sync::Mutex;
 
-use tauri::Manager;
-use tauri::State;
-use tauri::SystemTrayEvent;
+use tauri::{Manager, State};
 
 mod clipboard;
 mod ollama;
@@ -91,34 +89,7 @@ fn main() {
             system::toggle_window,
         ])
         .system_tray(system::init_tray())
-        .on_system_tray_event(|app, event| match event {
-            SystemTrayEvent::LeftClick {
-                position: _,
-                size: _,
-                ..
-            } => {
-                if let Err(e) = system::summon_window(app.clone()) {
-                    eprintln!("Error: {}", e);
-                }
-            }
-            SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
-                "show" => {
-                    if let Err(e) = system::summon_window(app.clone()) {
-                        eprintln!("Error: {}", e);
-                    }
-                }
-                "hide" => {
-                    if let Err(e) = system::hide_window(app.clone()) {
-                        eprintln!("Error: {}", e);
-                    }
-                }
-                "quit" => {
-                    std::process::exit(0);
-                }
-                _ => {}
-            },
-            _ => {}
-        })
+        .on_system_tray_event(|app, event| system::handle_tray_event(event, app))
         .on_window_event(|event| {
             if let tauri::WindowEvent::CloseRequested { api, .. } = event.event() {
                 if let Err(e) = event.window().hide() {
