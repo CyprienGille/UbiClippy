@@ -35,7 +35,7 @@
 - [x] Tray icon
 - [x] Closing to tray
 - [x] Summoning window with tray menu
-- [ ] Dismiss the app with a shortcut
+- [x] Dismiss the app with a shortcut
 
 ## [0.7.0] - Custom prompts
 
