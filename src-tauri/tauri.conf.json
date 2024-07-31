@@ -55,13 +55,17 @@
     "updater": {
       "active": false
     },
+    "systemTray": {
+      "iconPath": "icons/icon.png",
+      "iconAsTemplate": false
+    },
     "windows": [
       {
         "fullscreen": false,
         "height": 600,
         "resizable": true,
         "title": "UbiClippy",
-        "width": 800
+        "width": 900
       }
     ]
   }
