@@ -103,6 +103,11 @@ fn main() {
                 }
             }
             SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
+                "show" => {
+                    if let Err(e) = system::summon_window(app.clone()) {
+                        eprintln!("Error: {}", e);
+                    }
+                }
                 "hide" => {
                     if let Err(e) = system::hide_window(app.clone()) {
                         eprintln!("Error: {}", e);
@@ -114,6 +119,14 @@ fn main() {
                 _ => {}
             },
             _ => {}
+        })
+        .on_window_event(|event| {
+            if let tauri::WindowEvent::CloseRequested { api, .. } = event.event() {
+                if let Err(e) = event.window().hide() {
+                    eprintln!("Could not hide window: {}", e);
+                }
+                api.prevent_close();
+            }
         })
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

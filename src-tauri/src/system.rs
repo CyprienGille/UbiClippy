@@ -4,9 +4,11 @@ use tauri::{CustomMenuItem, SystemTrayMenu, SystemTrayMenuItem};
 
 pub fn init_tray() -> tauri::SystemTray {
     // here `"quit".to_string()` defines the menu item id, and the second parameter is the menu item label.
-    let quit = CustomMenuItem::new("quit".to_string(), "Quit");
+    let show = CustomMenuItem::new("show".to_string(), "Show");
     let hide = CustomMenuItem::new("hide".to_string(), "Hide");
+    let quit = CustomMenuItem::new("quit".to_string(), "Quit");
     let tray_menu = SystemTrayMenu::new()
+        .add_item(show)
         .add_item(hide)
         .add_native_item(SystemTrayMenuItem::Separator)
         .add_item(quit);
