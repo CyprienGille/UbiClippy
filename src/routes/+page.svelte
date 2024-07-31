@@ -27,7 +27,7 @@
 	let modelsPromise: Promise<Array<ModelInfo>> = invoke('get_all_models');
 
 	register('CommandOrControl+Alt+C', () => {
-		invoke('summon_window');
+		invoke('toggle_window');
 	});
 
 	const unlisten = listen('llm_chunk', (event: LLMChunk) => {

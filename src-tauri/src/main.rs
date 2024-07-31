@@ -88,8 +88,7 @@ fn main() {
             ollama::get_all_models,
             prompts::add_prompt,
             prompts::get_all_prompts,
-            system::summon_window,
-            system::hide_window,
+            system::toggle_window,
         ])
         .system_tray(system::init_tray())
         .on_system_tray_event(|app, event| match event {
