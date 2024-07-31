@@ -32,7 +32,7 @@
 
 ## [0.6.0] - Closing behavior
 
-- [ ] Tray icon
+- [x] Tray icon
 - [ ] Closing to tray
 - [ ] Dismiss the app with a shortcut
 

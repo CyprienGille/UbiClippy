@@ -5,11 +5,12 @@ use std::sync::Mutex;
 
 use tauri::Manager;
 use tauri::State;
+use tauri::SystemTrayEvent;
 
 mod clipboard;
 mod ollama;
 mod prompts;
-mod system_tray;
+mod system;
 
 #[derive(Debug)]
 struct CurrentChat {
@@ -87,8 +88,33 @@ fn main() {
             ollama::get_all_models,
             prompts::add_prompt,
             prompts::get_all_prompts,
-            system_tray::summon_window,
+            system::summon_window,
+            system::hide_window,
         ])
+        .system_tray(system::init_tray())
+        .on_system_tray_event(|app, event| match event {
+            SystemTrayEvent::LeftClick {
+                position: _,
+                size: _,
+                ..
+            } => {
+                if let Err(e) = system::summon_window(app.clone()) {
+                    eprintln!("Error: {}", e);
+                }
+            }
+            SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
+                "hide" => {
+                    if let Err(e) = system::hide_window(app.clone()) {
+                        eprintln!("Error: {}", e);
+                    }
+                }
+                "quit" => {
+                    std::process::exit(0);
+                }
+                _ => {}
+            },
+            _ => {}
+        })
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
