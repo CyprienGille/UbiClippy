@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Fixed [#4](https://github.com/CyprienGille/UbiClippy/issues/4). Window now correctly hides when the shortcut is pressed for the first time and it never lost focus before.
+
 ### Security
 
 ## [0.6.0] - 2024-07-31
