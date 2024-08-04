@@ -78,6 +78,7 @@ fn main() {
             history: Mutex::new(Vec::new()),
         })
         .manage(prompts::PromptLib::defaults())
+        .manage(system::HasLostFocusOnce::new())
         .invoke_handler(tauri::generate_handler![
             process_chat,
             clear_chat,

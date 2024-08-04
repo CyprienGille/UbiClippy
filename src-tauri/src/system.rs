@@ -1,5 +1,7 @@
+use std::sync::Mutex;
+
 use tauri::{
-    CustomMenuItem, Manager, SystemTray, SystemTrayEvent, SystemTrayMenu, SystemTrayMenuItem,
+    CustomMenuItem, Manager, State, SystemTray, SystemTrayEvent, SystemTrayMenu, SystemTrayMenuItem,
 };
 
 pub fn init_tray() -> tauri::SystemTray {
@@ -24,18 +26,18 @@ pub fn handle_tray_event(event: SystemTrayEvent, app: &tauri::AppHandle) {
                 size: _,
                 ..
             } => {
-                if let Err(e) = summon_window(main_window) {
+                if let Err(e) = summon_window(&main_window) {
                     eprintln!("Error: {}", e);
                 }
             }
             SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
                 "show" => {
-                    if let Err(e) = summon_window(main_window) {
+                    if let Err(e) = summon_window(&main_window) {
                         eprintln!("Error: {}", e);
                     }
                 }
                 "hide" => {
-                    if let Err(e) = hide_window(main_window) {
+                    if let Err(e) = hide_window(&main_window) {
                         eprintln!("Error: {}", e);
                     }
                 }
@@ -51,21 +53,46 @@ pub fn handle_tray_event(event: SystemTrayEvent, app: &tauri::AppHandle) {
     }
 }
 
-#[tauri::command]
-pub fn toggle_window(app: tauri::AppHandle) -> Result<(), String> {
-    match app.get_window("main") {
-        Some(main_window) => {
-            if main_window.is_focused().unwrap_or_default() {
-                hide_window(main_window)
-            } else {
-                summon_window(main_window)
-            }
+pub struct HasLostFocusOnce {
+    lost_focus: Mutex<bool>,
+}
+
+impl HasLostFocusOnce {
+    pub fn new() -> Self {
+        Self {
+            lost_focus: Mutex::new(false),
         }
+    }
+}
+
+#[tauri::command]
+pub fn toggle_window(
+    app: tauri::AppHandle,
+    focus_state: State<HasLostFocusOnce>,
+) -> Result<(), String> {
+    match app.get_window("main") {
+        Some(main_window) => match main_window.is_focused() {
+            Ok(true) => {
+                println!("Hiding window because it is focused");
+                hide_window(&main_window)
+            }
+            Ok(false) => {
+                if *focus_state.lost_focus.lock().unwrap() {
+                    println!("Showing window because it is not focused");
+                    summon_window(&main_window)
+                } else {
+                    println!("Hiding window because it is focused but has never lost focus");
+                    *focus_state.lost_focus.lock().unwrap() = true;
+                    hide_window(&main_window)
+                }
+            }
+            Err(_) => Err("Could not figure out if window was focused.".to_string()),
+        },
         None => Err("Could not find window 'main'.".to_string()),
     }
 }
 
-pub fn summon_window(main_window: tauri::Window) -> Result<(), String> {
+pub fn summon_window(main_window: &tauri::Window) -> Result<(), String> {
     if let Err(e) = main_window.show() {
         return Err(format!("Failed to show on window 'main': {}", e));
     }
@@ -78,7 +105,7 @@ pub fn summon_window(main_window: tauri::Window) -> Result<(), String> {
     Ok(())
 }
 
-pub fn hide_window(main_window: tauri::Window) -> Result<(), String> {
+pub fn hide_window(main_window: &tauri::Window) -> Result<(), String> {
     if let Err(e) = main_window.hide() {
         return Err(format!("Failed to hide window 'main': {}", e));
     }
