@@ -67,7 +67,7 @@
 ## [0.11.0] - UX improvements
 
 - [ ] Custom right-click menu
-- [ ] Custom Window menu
+- [ ] Custom Window menu ?
 - [ ] Pretty markdown
 - [ ] Highlighted code
 - [ ] More options in system tray
@@ -75,10 +75,9 @@
 
 ## [0.12.0] - UI improvements
 
-- [ ] Documentation efforts
 - [ ] Better App Icon
 - [ ] Better font
-- [ ] Changing theme
+- [x] Changing light/dark theme
 
 ## [0.13.0] - Documentation
 
@@ -104,3 +103,4 @@
 - [ ] Tool calling
 - [ ] Custom window top bar
 - [ ] More LLM providers
+- [ ] Changing theme
