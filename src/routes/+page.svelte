@@ -178,7 +178,7 @@
 					>
 						{#if prompt.trigger}
 							<div class="relative h-full w-full">
-								<div class="absolute left-0 top-0 -ml-3 -mt-1 rounded-md border px-1 text-xs">
+								<div class="absolute left-0 top-0 -ml-4 -mt-1 rounded-md border px-1 text-xs">
 									{prompt.trigger.toUpperCase()}
 								</div>
 								<div class="h-full content-center">
