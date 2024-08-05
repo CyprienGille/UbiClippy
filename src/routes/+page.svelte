@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getModalStore, type ModalSettings } from '@skeletonlabs/skeleton';
+	import { getModalStore, LightSwitch, type ModalSettings } from '@skeletonlabs/skeleton';
 	import { invoke } from '@tauri-apps/api/tauri';
 	import { register } from '@tauri-apps/api/globalShortcut';
 	import { listen } from '@tauri-apps/api/event';
@@ -156,9 +156,13 @@
 
 <main class="h-screen w-screen">
 	{#if pickingPrompt}
-		<button class="btn w-full justify-center text-2xl" on:click={triggerModal}
-			>{chosenModel ?? 'Pick a Model'}</button
-		>
+		<div class="relative w-full">
+			<button class="btn w-full justify-center text-2xl" on:click={triggerModal}
+				>{chosenModel ?? 'Pick a Model'}</button
+			>
+			<a href="/settings/" class="btn absolute left-0 top-0 text-3xl"> 🛠️ </a>
+			<LightSwitch class="absolute right-0 top-0 mr-2 mt-3" />
+		</div>
 		<div
 			class="logo-cloud grid-cols-1 justify-center md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"
 		>
