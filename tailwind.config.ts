@@ -1,4 +1,3 @@
-
 import { join } from 'path';
 import type { Config } from 'tailwindcss';
 
@@ -7,7 +6,7 @@ import forms from '@tailwindcss/forms';
 import { skeleton } from '@skeletonlabs/tw-plugin';
 
 const config = {
-  darkMode: 'class',
+  darkMode: 'selector',
   content: [
     './src/**/*.{html,js,svelte,ts}',
     join(require.resolve(
@@ -15,23 +14,12 @@ const config = {
       '../**/*.{html,js,svelte,ts}'
     )
   ],
-  theme: { 
-    extend: {},
-  },
   plugins: [
     forms,
     skeleton({
       themes: { preset: [
         {
           name: 'skeleton',
-          enhancements: true,
-        },
-        {
-          name: 'gold-nouveau',
-          enhancements: true,
-        },
-        {
-          name: 'modern',
           enhancements: true,
         },
       ] }
