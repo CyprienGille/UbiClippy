@@ -62,27 +62,27 @@ impl PromptLib {
                 ),
                 Prompt::new(
                     3,
-                    "What is the following about?\n$CLIPBOARD$".to_string(),
-                    true, 
-                    None
-                ),
-                Prompt::new(
-                    4,
                     "Format this nicely.\n$CLIPBOARD$".to_string(),
                     true, 
                     None
                 ),
                 Prompt::new(
-                    5,
-                    "What does this code do?.\n$CLIPBOARD$".to_string(),
+                    4,
+                    "What does this code do?\n$CLIPBOARD$".to_string(),
                     true, 
                     None
                 ),
                 Prompt::new(
-                    6,
+                    5,
                     "How many helicopters can a human eat in one sitting?".to_string(),
                     true, 
                     Some("i".to_string())
+                ),
+                Prompt::new(
+                    6,
+                    "What does the word '$CLIPBOARD$' mean?".to_string(),
+                    true, 
+                    Some("d".to_string())
                 )
             ]),
         }
