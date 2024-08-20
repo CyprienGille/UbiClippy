@@ -1,16 +1,37 @@
 <script lang="ts">
 	import { invoke } from '@tauri-apps/api';
 	import { SlideToggle } from '@skeletonlabs/skeleton';
+	import editIcon from '$lib/edit.svg';
 
 	let promptsPromise: Promise<Array<Prompt>> = invoke('get_all_prompts');
+	let editingId: Number = -1;
 
-	function togglePrompt(id: number) {
+	function startEditPrompt(id: Number) {
+		editingId = id;
+	}
+
+	function endEditPrompt(id: Number, content: String) {
+		invoke('edit_prompt_content', { id, content });
+		editingId = -1;
+		refreshPrompts();
+	}
+
+	function togglePrompt(id: Number) {
 		invoke('toggle_prompt', { id });
 		refreshPrompts();
 	}
 
 	function refreshPrompts() {
 		promptsPromise = invoke('get_all_prompts');
+	}
+
+	function handleEnterKeyDown(event: KeyboardEvent) {
+		if (event.key === 'Enter') {
+			if (!event.shiftKey) {
+				event.preventDefault();
+				document.getElementById('checkEdit')?.click();
+			}
+		}
 	}
 </script>
 
@@ -30,17 +51,41 @@
 			Loading prompts...
 		{:then allPrompts}
 			{#each allPrompts as prompt}
-				<div class="logo-item relative whitespace-pre-line text-wrap hover:variant-filled-tertiary">
-					{prompt.content}
-					<div class="absolute bottom-0 right-0 mr-1">
-						<SlideToggle
-							name="Slide${prompt.id}"
-							active="bg-primary-500"
-							size="sm"
-							bind:checked={prompt.enabled}
-							on:change={() => togglePrompt(prompt.id)}
+				<div class="logo-item relative whitespace-pre-line text-wrap">
+					{#if editingId == -1}
+						{prompt.content}
+						<button
+							class="btn absolute bottom-0 left-0"
+							on:click={() => startEditPrompt(prompt.id)}
+						>
+							<img class="dark:invert" src={editIcon} alt="An icon of a pen" />
+						</button>
+						<div class="absolute bottom-0 right-0 pb-1 pr-1">
+							<SlideToggle
+								name="Slide${prompt.id}"
+								active="bg-primary-500"
+								size="sm"
+								bind:checked={prompt.enabled}
+								on:change={() => togglePrompt(prompt.id)}
+							/>
+						</div>
+					{:else if editingId == prompt.id}
+						<textarea
+							class="textarea mx-3"
+							bind:value={prompt.content}
+							on:keydown={handleEnterKeyDown}
 						/>
-					</div>
+						<button
+							class="btn absolute bottom-0 left-0"
+							id="checkEdit"
+							on:click={() => endEditPrompt(prompt.id, prompt.content)}>✅</button
+						>
+					{:else}
+						{prompt.content}
+						<span class="absolute bottom-0 left-0 mb-1 text-sm font-light italic">
+							Another prompt is being edited right now
+						</span>
+					{/if}
 				</div>
 			{/each}
 		{/await}
