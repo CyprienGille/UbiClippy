@@ -209,7 +209,7 @@
 								<div class="card variant-soft-primary rounded-tr-none p-4">
 									<header class="flex items-center justify-between">
 										<button class="btn" on:click={() => copyMessage(i)}>
-											<img class="w-6" src={cbIcon} alt="A clipboard icon" />
+											<img class="w-6 dark:invert" src={cbIcon} alt="A clipboard icon" />
 										</button>
 										<p class="font-bold">User</p>
 									</header>
