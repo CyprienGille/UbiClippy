@@ -80,7 +80,7 @@ impl PromptLib {
                 ),
                 Prompt::new(
                     6,
-                    "Is this my first message to you?".to_string(),
+                    "How many helicopters can a human eat in one sitting?".to_string(),
                     true, 
                     Some("i".to_string())
                 )
@@ -101,6 +101,21 @@ pub fn add_prompt(
 }
 
 #[tauri::command]
+pub fn toggle_prompt(
+    id:u64,
+    all_prompts: State<PromptLib>,
+) {
+    
+    all_prompts.prompts
+    .lock()
+    .unwrap()
+    .iter_mut()
+    .filter(|prompt| prompt.id == id)
+    .for_each(|prompt| prompt.enabled = !prompt.enabled);
+}
+
+#[tauri::command]
 pub fn get_all_prompts(all_prompts: State<PromptLib>) -> Vec<Prompt> {
     (*all_prompts.prompts.lock().unwrap()).clone()
 }
+
