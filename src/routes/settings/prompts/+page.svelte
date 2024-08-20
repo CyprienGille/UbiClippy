@@ -2,6 +2,7 @@
 	import { invoke } from '@tauri-apps/api';
 	import { SlideToggle } from '@skeletonlabs/skeleton';
 	import editIcon from '$lib/edit.svg';
+	import trashIcon from '$lib/trash.svg';
 
 	let promptsPromise: Promise<Array<Prompt>> = invoke('get_all_prompts');
 	let editingId: Number = -1;
@@ -18,6 +19,11 @@
 
 	function togglePrompt(id: Number) {
 		invoke('toggle_prompt', { id });
+		refreshPrompts();
+	}
+
+	function removePrompt(id: Number) {
+		invoke('remove_prompt', { id });
 		refreshPrompts();
 	}
 
@@ -54,6 +60,9 @@
 				<div class="logo-item relative whitespace-pre-line text-wrap">
 					{#if editingId == -1}
 						{prompt.content}
+						<button class="btn absolute right-0 top-0" on:click={() => removePrompt(prompt.id)}>
+							<img class="dark:invert" src={trashIcon} alt="An icon of a bin" />
+						</button>
 						<button
 							class="btn absolute bottom-0 left-0"
 							on:click={() => startEditPrompt(prompt.id)}
