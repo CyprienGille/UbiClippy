@@ -129,6 +129,13 @@ pub fn edit_prompt_content(
     .for_each(|prompt| prompt.content.clone_from(&content));
 }
 
+#[tauri::command]
+pub fn remove_prompt(id: u64, all_prompts: State<PromptLib>) {
+   let mut prompts = all_prompts.prompts.lock().unwrap();
+   if let Some(pos) = prompts.iter().position(|prompt| prompt.id == id) {
+       prompts.remove(pos);
+   }
+}
 
 
 #[tauri::command]

@@ -88,6 +88,7 @@ fn main() {
             prompts::add_prompt,
             prompts::get_all_prompts,
             prompts::toggle_prompt,
+            prompts::remove_prompt,
             prompts::edit_prompt_content,
             system::toggle_window,
         ])
