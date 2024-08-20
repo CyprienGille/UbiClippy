@@ -115,6 +115,23 @@ pub fn toggle_prompt(
 }
 
 #[tauri::command]
+pub fn edit_prompt_content(
+    id:u64,
+    content:String,
+    all_prompts: State<PromptLib>,
+) {
+    
+    all_prompts.prompts
+    .lock()
+    .unwrap()
+    .iter_mut()
+    .filter(|prompt| prompt.id == id)
+    .for_each(|prompt| prompt.content.clone_from(&content));
+}
+
+
+
+#[tauri::command]
 pub fn get_all_prompts(all_prompts: State<PromptLib>) -> Vec<Prompt> {
     (*all_prompts.prompts.lock().unwrap()).clone()
 }
