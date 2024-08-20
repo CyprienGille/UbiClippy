@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Prompt library page
   - Ability to disable/enable prompts
   - Ability to edit prompts
+  - Ability to delete prompts
 
 ### Changed
 

@@ -40,7 +40,7 @@
 ## [0.7.0] - Custom prompts
 
 - [ ] Adding prompts
-- [ ] Removing prompts
+- [x] Removing prompts
 - [x] Editing existing prompt
 - [x] Toggling prompts on/off
 
