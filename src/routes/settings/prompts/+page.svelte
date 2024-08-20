@@ -6,6 +6,7 @@
 
 	let promptsPromise: Promise<Array<Prompt>> = invoke('get_all_prompts');
 	let editingId: Number = -1;
+	let addingPrompt: Boolean = false;
 
 	function startEditPrompt(id: Number) {
 		editingId = id;
@@ -97,6 +98,7 @@
 					{/if}
 				</div>
 			{/each}
+			<button class="logo-item hover:variant-ghost-primary">New Prompt</button>
 		{/await}
 	</div>
 </main>
