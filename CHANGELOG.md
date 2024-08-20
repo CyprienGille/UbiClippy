@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Lightswitch to toggle between dark mode and light mode
 - Settings page
 - Prompt library page
+  - Ability to disable/enable prompts
 
 ### Changed
 

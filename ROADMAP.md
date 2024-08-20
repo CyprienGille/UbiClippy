@@ -41,7 +41,7 @@
 
 - [ ] Adding prompts
 - [ ] Removing prompts
-- [ ] Toggling prompts on/off
+- [x] Toggling prompts on/off
 
 ## [0.8.0] - Storage
 
