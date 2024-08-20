@@ -156,6 +156,7 @@
 
 <main class="h-screen w-screen">
 	{#if pickingPrompt}
+		<!-- Main menu UI -->
 		<div class="relative w-full">
 			<button class="btn w-full justify-center text-2xl" on:click={triggerModal}
 				>{chosenModel ?? 'Pick a Model'}</button
@@ -163,6 +164,7 @@
 			<a href="/settings/" class="btn absolute left-0 top-0 text-3xl"> 🛠️ </a>
 			<LightSwitch class="absolute right-0 top-0 mr-2 mt-3" />
 		</div>
+		<!-- Prompts UI -->
 		<div
 			class="logo-cloud grid-cols-1 justify-center md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"
 		>
@@ -170,29 +172,32 @@
 				Loading prompts...
 			{:then allPrompts}
 				{#each allPrompts as prompt}
-					<button
-						class="variant-filled-surface btn m-2 whitespace-pre-line text-wrap rounded-md"
-						disabled={noSelectedModel(chosenModel)}
-						on:click={() => selectPrompt(prompt.id, prompt.content)}
-						id={`buttonId${prompt.id}`}
-					>
-						{#if prompt.trigger}
-							<div class="relative h-full w-full">
-								<div class="absolute left-0 top-0 -ml-4 -mt-1 rounded-md border px-1 text-xs">
-									{prompt.trigger.toUpperCase()}
+					{#if prompt.enabled}
+						<button
+							class="variant-filled-surface btn m-2 whitespace-pre-line text-wrap rounded-md"
+							disabled={noSelectedModel(chosenModel)}
+							on:click={() => selectPrompt(prompt.id, prompt.content)}
+							id={`buttonId${prompt.id}`}
+						>
+							{#if prompt.trigger}
+								<div class="relative h-full w-full">
+									<div class="absolute left-0 top-0 -ml-4 -mt-1 rounded-md border px-1 text-xs">
+										{prompt.trigger.toUpperCase()}
+									</div>
+									<div class="h-full content-center">
+										{prompt.content}
+									</div>
 								</div>
-								<div class="h-full content-center">
-									{prompt.content}
-								</div>
-							</div>
-						{:else}
-							{prompt.content}
-						{/if}
-					</button>
+							{:else}
+								{prompt.content}
+							{/if}
+						</button>
+					{/if}
 				{/each}
 			{/await}
 		</div>
 	{:else}
+		<!-- Chat UI -->
 		<div class="grid h-full grid-rows-[1fr_auto]">
 			<div class="overflow-y-auto bg-surface-500/10 p-4" bind:this={chatElement}>
 				<section class="h-auto w-full space-y-2 overflow-y-auto p-4">

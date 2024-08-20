@@ -6,17 +6,17 @@
 	</ol>
 
 	<div class="flex h-3/4 w-full items-center justify-center">
-		<nav class="list-nav flex w-2/3 flex-col justify-center bg-secondary-500/30 text-2xl">
+		<nav class="list-nav flex w-2/3 flex-col justify-center text-2xl">
 			<ul>
 				<li>
-					<a href="/settings/prompts/">
-						<span class="badge mr-2 bg-primary-500">(icon)</span>
-						<span class="flex-auto">Prompt Library</span>
+					<a href="/settings/general/">
+						<span class="badge mr-2 bg-primary-500/30 text-xl">⚙️</span>
+						<span class="flex-auto">General Settings</span>
 					</a>
 				</li>
 				<li>
 					<a href="/settings/prompts/">
-						<span class="badge mr-2 bg-primary-500">(icon)</span>
+						<span class="badge mr-2 bg-primary-500/30 text-xl">📚</span>
 						<span class="flex-auto">Prompt Library</span>
 					</a>
 				</li>
