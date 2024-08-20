@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { LightSwitch } from '@skeletonlabs/skeleton';
+
 	// Script goes here
 </script>
 
@@ -10,4 +12,9 @@
 		<li class="crumb-separator" aria-hidden="true">&rsaquo;</li>
 		<li>General</li>
 	</ol>
+
+	<div class="flex">
+		Light Mode / Dark Mode
+		<LightSwitch class="" />
+	</div>
 </main>
