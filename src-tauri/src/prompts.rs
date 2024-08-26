@@ -7,6 +7,22 @@ pub struct IdState {
 }
 
 impl IdState {
+    // pub fn new() -> Self {
+    //     IdState { next_id: Mutex::new(0) }
+    // }
+    
+    pub fn from_prompt_lib(pl: PromptLib) -> Self {
+        let max_id = pl.prompts.lock().unwrap()
+            .clone()
+            .into_iter()
+            .max_by_key(|prompt| prompt.id)
+            .map(|prompt| prompt.id + 1)
+            .unwrap_or(0);
+        IdState {
+            next_id: Mutex::new(max_id),
+        }
+    }
+
     fn consume_free_id(&self) -> u64 {
         let free_id = *self.next_id.lock().unwrap();
         *self.next_id.lock().unwrap() += 1;
@@ -38,13 +54,13 @@ pub struct PromptLib {
 }
 
 impl PromptLib {
-    pub fn new() -> Self {
-        PromptLib {
-            prompts: Mutex::new(Vec::new()),
-        }
-    }
+    // pub fn new() -> Self {
+    //     PromptLib {
+    //         prompts: Mutex::new(Vec::new()),
+    //     }
+    // }
 
-    pub fn defaults() -> Self {
+    pub fn default() -> Self {
         PromptLib {
             prompts: Mutex::new(vec![
                 Prompt::new(0, "Hi!".to_string(), true, Some("h".to_string())),
