@@ -20,6 +20,12 @@
 						<span class="flex-auto">Prompt Library</span>
 					</a>
 				</li>
+				<li>
+					<a href="/settings/about/">
+						<span class="badge mr-2 bg-primary-500/30 text-xl">❔</span>
+						<span class="flex-auto">About</span>
+					</a>
+				</li>
 			</ul>
 		</nav>
 	</div>

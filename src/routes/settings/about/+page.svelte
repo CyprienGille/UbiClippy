@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { LightSwitch } from '@skeletonlabs/skeleton';
+	// Script goes here
 </script>
 
 <main>
@@ -8,11 +8,8 @@
 		<li class="crumb-separator" aria-hidden="true">&rsaquo;</li>
 		<li class="crumb"><a class="anchor" href="/settings">Settings</a></li>
 		<li class="crumb-separator" aria-hidden="true">&rsaquo;</li>
-		<li>General</li>
+		<li>About</li>
 	</ol>
 
-	<div class="flex">
-		Light Mode / Dark Mode
-		<LightSwitch class="" />
-	</div>
+	<span>Icons by <a class="underline" target="_blank" href="https://icons8.com/">Icons8</a></span>
 </main>
