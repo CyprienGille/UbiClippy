@@ -39,7 +39,7 @@
 
 ## [0.7.0] - Custom prompts
 
-- [ ] Adding prompts
+- [x] Adding prompts
 - [x] Removing prompts
 - [x] Editing existing prompt
 - [x] Toggling prompts on/off
@@ -61,7 +61,7 @@
 ## [0.10.0] - Customization
 
 - [ ] Customizing shortcut
-- [ ] Customizing prompts
+- [ ] Customizing prompt triggers
 - [ ] Customize default model
 - [ ] Override default model per-prompt
 
