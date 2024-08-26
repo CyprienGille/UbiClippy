@@ -3,10 +3,13 @@
 	import { SlideToggle } from '@skeletonlabs/skeleton';
 	import editIcon from '$lib/edit.svg';
 	import trashIcon from '$lib/trash.svg';
+	import plusIcon from '$lib/plus.svg';
 
 	let promptsPromise: Promise<Array<Prompt>> = invoke('get_all_prompts');
 	let editingId: Number = -1;
+
 	let addingPrompt: Boolean = false;
+	let new_content: String = 'Enter Prompt Here';
 
 	function startEditPrompt(id: Number) {
 		editingId = id;
@@ -15,6 +18,16 @@
 	function endEditPrompt(id: Number, content: String) {
 		invoke('edit_prompt_content', { id, content });
 		editingId = -1;
+		refreshPrompts();
+	}
+
+	function startAddPrompt() {
+		editingId = -2;
+	}
+
+	function endAddPrompt() {
+		editingId = -1;
+		invoke('add_prompt', { newPrompt: new_content });
 		refreshPrompts();
 	}
 
@@ -98,7 +111,29 @@
 					{/if}
 				</div>
 			{/each}
-			<button class="logo-item hover:variant-ghost-primary">New Prompt</button>
+			{#if editingId == -2}
+				<div class="logo-item relative">
+					<textarea
+						class="textarea mx-3"
+						bind:value={new_content}
+						on:keydown={handleEnterKeyDown}
+					/>
+					<button class="btn absolute bottom-0 right-0" id="checkEdit" on:click={endAddPrompt}
+						>✅</button
+					>
+				</div>
+			{:else if editingId == -1}
+				<button class="logo-item hover:variant-ghost-primary" on:click={startAddPrompt}
+					><img src={plusIcon} class="w-12 dark:invert" alt="A plus icon" /></button
+				>
+			{:else}
+				<button class="logo-item relative" disabled>
+					<img src={plusIcon} class="w-12 dark:invert" alt="A plus icon" />
+					<span class="absolute bottom-0 left-0 mb-1 text-sm font-light italic">
+						Another prompt is being edited right now
+					</span>
+				</button>
+			{/if}
 		{/await}
 	</div>
 </main>
