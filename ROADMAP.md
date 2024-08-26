@@ -46,7 +46,8 @@
 
 ## [0.8.0] - Storage
 
-- [ ] Clearing current chat
+- [ ] Storing prompt library
+- [x] Clearing current chat
 - [ ] Storing previous responses/chats
 - [ ] Loading into a previous chat
 - [ ] Deleting responses/chats
