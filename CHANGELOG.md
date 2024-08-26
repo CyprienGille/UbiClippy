@@ -9,6 +9,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [0.7.0] - 2024-08-26
+
+### Added
+
 - Lightswitch to toggle between dark mode and light mode
 - Settings page
 - Prompt library page
