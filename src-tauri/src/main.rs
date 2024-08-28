@@ -8,6 +8,7 @@ use tauri::{Manager, State};
 mod clipboard;
 mod ollama;
 mod prompts;
+mod storage;
 mod system;
 
 #[derive(Debug)]
@@ -93,6 +94,7 @@ fn main() {
             prompts::toggle_prompt,
             prompts::remove_prompt,
             prompts::edit_prompt_content,
+            storage::load_prompt_lib,
             system::toggle_window,
         ])
         .system_tray(system::init_tray())

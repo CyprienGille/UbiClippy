@@ -50,7 +50,7 @@ impl Prompt {
 }
 
 pub struct PromptLib {
-    prompts: Mutex<Vec<Prompt>>,
+    pub prompts: Mutex<Vec<Prompt>>,
 }
 
 impl PromptLib {
