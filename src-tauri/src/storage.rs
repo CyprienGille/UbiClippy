@@ -1,4 +1,9 @@
-use std::{error::Error, fs::File, io::BufReader, path::Path};
+use std::{
+    error::Error,
+    fs::{write, File},
+    io::BufReader,
+    path::Path,
+};
 
 use tauri::{AppHandle, State};
 
@@ -28,4 +33,22 @@ fn read_lib_from_file<P: AsRef<Path>>(path: P) -> Result<Vec<Prompt>, Box<dyn Er
     let lib = serde_json::from_reader(reader)?;
 
     Ok(lib)
+}
+
+#[tauri::command]
+fn save_lib_to_file(all_prompts: State<PromptLib>, app: AppHandle) -> Result<(), Box<dyn Error>> {
+    let data_dir = match app.path_resolver().app_data_dir() {
+        Some(dir) => dir,
+        None => return Err("Error while looking for the app data dir".into()),
+    };
+    let file_path = data_dir.join(LIB_FILE_NAME);
+
+    let serialized = match serde_json::to_string_pretty(&*all_prompts.prompts.lock().unwrap()) {
+        Ok(s) => s,
+        Err(e) => return Err(Box::new(e)),
+    };
+
+    write(file_path, serialized).map_err(Box::new)?;
+
+    Ok(())
 }
