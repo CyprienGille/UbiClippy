@@ -58,6 +58,7 @@
 - [ ] Setting storage
 - [ ] Bypass deleting confirmation dialog
 - [ ] UI for each setting
+- [ ] Storing settings
 
 ## [0.10.0] - Customization
 
@@ -69,16 +70,18 @@
 ## [0.11.0] - UX improvements
 
 - [ ] Custom right-click menu
+- [ ] Tooltips
 - [ ] Custom Window menu ?
-- [ ] Pretty markdown
-- [ ] Highlighted code
 - [ ] More options in system tray
 - [ ] Toast when copying a message
+- [ ] Toasts when errors
 
 ## [0.12.0] - UI improvements
 
 - [ ] Better App Icon
 - [ ] Better font
+- [ ] Pretty markdown
+- [ ] Highlighted code
 - [x] Changing light/dark theme
 
 ## [0.13.0] - Documentation
@@ -102,6 +105,8 @@
 - [ ] Allow start on startup/login
 - [ ] Exporting chats
 - [ ] Importing chats
+- [ ] Exporting prompt library
+- [ ] Importing prompt library
 - [ ] Tool calling
 - [ ] Custom window top bar
 - [ ] More LLM providers
