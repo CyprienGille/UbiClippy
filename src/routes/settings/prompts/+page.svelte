@@ -6,16 +6,16 @@
 	import plusIcon from '$lib/plus.svg';
 
 	let promptsPromise: Promise<Array<Prompt>> = invoke('get_all_prompts');
-	let editingId: Number = -1;
+	let editingId: number = -1;
 
 	let addingPrompt: Boolean = false;
 	let new_content: String = 'Enter Prompt Here';
 
-	function startEditPrompt(id: Number) {
+	function startEditPrompt(id: number) {
 		editingId = id;
 	}
 
-	function endEditPrompt(id: Number, content: String) {
+	function endEditPrompt(id: number, content: String) {
 		invoke('edit_prompt_content', { id, content });
 		editingId = -1;
 		refreshPrompts();
@@ -31,12 +31,12 @@
 		refreshPrompts();
 	}
 
-	function togglePrompt(id: Number) {
+	function togglePrompt(id: number) {
 		invoke('toggle_prompt', { id });
 		refreshPrompts();
 	}
 
-	function removePrompt(id: Number) {
+	function removePrompt(id: number) {
 		invoke('remove_prompt', { id });
 		refreshPrompts();
 	}
